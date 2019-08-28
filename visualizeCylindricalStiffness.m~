@@ -1,0 +1,8 @@
+function visualizeCylindricalStiffness(pcl)
+    
+    
+
+    % Binscatter
+    binscatter(pcl_0deg.pos_cyl(:, 2), pcl_0deg.val, 50)
+end
+
