@@ -1,8 +1,41 @@
 function visualizeCylindricalStiffness(pcl)
+    x = pcl.pos_cyl(:, 2);
+    y = pcl.val;
+    
+%     % Binscatter
+%     figure(1)
+%     title("Binscatter");
+%     binscatter(x, y, 50);
+%     
+%     % Polyfit
+%     polyfit_order = 8;
+%     figure(2)
+%     title(["Polyfit of order ", string(polyfit_order)]);
+%     scatter(x, y);
+%     hold on;
+%     p = polyfit(x, y, polyfit_order);
+%     xsorted = sort(x);
+%     yp = polyval(p,xsorted);
+%     plot(xsorted,yp,'r-')
+    
+    % Binning data
+    nr_bins = 10;
+    [bins, edges] = discretize(x, nr_bins);
+    half_intervall = bins(2)-edges(1)
+    
+    means = NaN(nr_bins, 1);
+    stds = NaN(nr_bins, 1);
+    count = NaN(nr_bins, 1);
+    for bin = 1:nr_bins
+        x_center(bin) = edges(bin) + edges(bin)
+        means(bin) = mean(x(bins == bin));
+        stds(bin) = std(x(bins == bin));
+        count(bin) = length(x(bins == bin));
+    end
     
     
-
-    % Binscatter
-    binscatter(pcl_0deg.pos_cyl(:, 2), pcl_0deg.val, 50)
+    figure(3)
+    plot(edges)
+        
 end
 

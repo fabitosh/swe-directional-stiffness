@@ -39,17 +39,19 @@ pcl_90deg.pos_cyl(:, 3) = pcl_90deg.pos(: , 3);
 %% Visualise Results
 % scatter(pcl_0deg.pos_cyl(:, 1), pcl_0deg.val)
 
-binscatter(pcl_0deg.pos_cyl(:, 2), pcl_0deg.val, 50)
+visualizeCylindricalStiffness(pcl_0deg)
 
-% Polynomial Fit
-figure(1)
-scatter(pcl_0deg.pos_cyl(:, 2), pcl_0deg.val);
-hold on;
-p = polyfit(pcl_0deg.pos_cyl(:, 2), pcl_0deg.val, 8);
-x = sort(pcl_0deg.pos_cyl(:, 2));
-yp = polyval(p,x);
-plot(x,yp,'r-')
+% binscatter(pcl_0deg.pos_cyl(:, 2), pcl_0deg.val, 50)
+% 
+% % Polynomial Fit
+% figure(1)
+% scatter(pcl_0deg.pos_cyl(:, 2), pcl_0deg.val);
+% hold on;
+% p = polyfit(pcl_0deg.pos_cyl(:, 2), pcl_0deg.val, 8);
+% x = sort(pcl_0deg.pos_cyl(:, 2));
+% yp = polyval(p,x);
+% plot(x,yp,'r-')
 
 
 figure(2)
-scatter(pcl_90deg.pos_cyl(:, 2), pcl_90deg.val,1, 'filled')
+scatter(pcl_90deg.pos_cyl(:, 2), pcl_90deg.val, 1, 'filled')
