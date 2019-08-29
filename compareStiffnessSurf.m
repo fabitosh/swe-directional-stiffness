@@ -11,10 +11,12 @@ function [f] = compareStiffnessSurf(pcl1, pcl2, conv_filter_size)
     f = figure();
     set(gcf,'position',[10,100,1600,800])
     subplot(121)
-    surf(stiffnessarray1)
+    s = surf(stiffnessarray1);
+    s.EdgeColor = 'none';
     view(0,90)
     subplot(122)
-    surf(stiffnessarray2)
+    s = surf(stiffnessarray2);
+    s.EdgeColor = 'none';
     view(0,90)
 end
 
