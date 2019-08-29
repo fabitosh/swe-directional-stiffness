@@ -35,44 +35,24 @@ pcl_0deg.pos_cyl(:, 3) = pcl_0deg.pos(: , 3);
 pcl_90deg.pos_cyl(:, 3) = pcl_90deg.pos(: , 3);
 
 %% Visualise Results
-% 2D Plots
+% 2D Plots in Cylindrical coordinates
 % .pos_cyl(:, 1) are rho values, .pos_cyl(:, 2) are theta values
-xleft = pcl_0deg.pos_cyl(:, 1);
-xright = pcl_90deg.pos_cyl(:, 1);
+xtop = pcl_0deg.pos_cyl(:, 1);
+xbot = pcl_90deg.pos_cyl(:, 1);
 
 figure(1)
 subplot(221)
-visualizeCylindricalStiffness(xleft, pcl_0deg.val, 30)
+visualizeCylindricalStiffness(xtop, pcl_0deg.val, 30)
 subplot(223)
-visualizeCylindricalStiffness(xright, pcl_90deg.val, 30)
+visualizeCylindricalStiffness(xbot, pcl_90deg.val, 30)
 subplot(222)
-polyFit(xleft, pcl_0deg.val, 8)
+polyFit(xtop, pcl_0deg.val, 8)
 subplot(224)
-polyFit(xright, pcl_90deg.val, 8)
+polyFit(xbot, pcl_90deg.val, 8)
 
-% 3D Visualization
-figure(2)
-hist3(pcl_0deg.pos(:, 1:2))
-
-% 2D data binning
-[ux, ~, xidx] = unique(pcl_0deg.pos(:, 1));
-[uy, ~, yidx] = unique(pcl_0deg.pos(:, 2));
-% count the number of points at each unique x/y combination
-counts = accumarray([xidx(:), yidx(:)], 1); 
-%average the z that fall into each unique x/y combination
-avgs = accumarray([xidx(:), yidx(:)], pcl_0deg.val);
-figure(3)
-surf(avgs)
+% 3D Visualizations
+plot2DStiffness(computeSmoothed2DStiffness(pcl_0deg, 5))
+compareStiffnessSurf(pcl_0deg, pcl_90deg, 5)
 
 
-conv_filter_size = 10;
-filter = ones(conv_filter_size)/(conv_filter_size*conv_filter_size);
-weightedavgs = counts.*avgs;
-weighted_avgs_smoothed = conv2(weightedavgs, filter, 'same');
-counts_smoothed = conv2(counts, filter, 'same');
-out = weighted_avgs_smoothed./counts_smoothed;
-surf(out)
 
-
-%create a list of the z that fall into each unique x/y combination
-zs = accumarray([xidx(:), yidx(:)], pcl_0deg.val, [], @(V) {V}, {});
