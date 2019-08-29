@@ -35,7 +35,7 @@ tf = center_90deg - center_0deg;
 pcl_90deg.pos = pcl_90deg.pos - tf;
 
 %% Visualize the wobababu
-figure(1)
+figure(2)
 subplot(221)
 title("xz")
 scatter(pcl_0deg.pos(:, 1), pcl_0deg.pos(:, 3),'.'); hold on;

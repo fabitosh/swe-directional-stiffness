@@ -1,6 +1,6 @@
 function polyFit(x, y, order_polynom)
     title(["Polyfit of order ", string(order_polynom)]);
-    scatter(x, y);
+    scatter(x, y, 1, 'filled');
     hold on;
     p = polyfit(x, y, order_polynom);
     xsorted = sort(x);

@@ -55,9 +55,10 @@ figure(2)
 hist3(pcl_0deg.pos(:, 1:2))
 
 % 2D data binning
+
 [ux, ~, xidx] = unique(pcl_0deg.pos(:, 1));
 [uy, ~, yidx] = unique(pcl_0deg.pos(:, 2));
-% count the number of points at each unique x/y combination
+%count the number of points at each unique x/y combination
 counts = accumarray([xidx(:), yidx(:)], 1); 
 %average the z that fall into each unique x/y combination
 avgs = accumarray([xidx(:), yidx(:)], pcl_0deg.val);
@@ -68,9 +69,9 @@ surf(avgs)
 conv_filter_size = 10;
 filter = ones(conv_filter_size)/(conv_filter_size*conv_filter_size);
 weightedavgs = counts.*avgs;
-weighted_avgs_smoothed = conv2(weightedavgs, filter, 'same');
+weighted_avgs_smoothed = conv2(weightedavgs, filter, 'valid');
 counts_smoothed = conv2(counts, filter, 'same');
-out = weighted_avgs_smoothed./counts_smoothed;
+out = avgs_smoothed./counts_smoothed;
 surf(out)
 
 
