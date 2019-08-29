@@ -1,4 +1,4 @@
-function binnedDataVisualisation(x, y, nr_bins) 
+function binnedDataVisualisation(x, y, nr_bins, x_label) 
 % Splits x into nr_bins equally sized bins. Computes the mean and standard
 % deviation for each bin.
 % The plot shows the scatter of all datapoints, the mean curve and the
@@ -21,11 +21,17 @@ function binnedDataVisualisation(x, y, nr_bins)
     
     %% Visualise Results
     scatter(x, y, 1, 'filled'); hold on
+    yyaxis left
+    ylabel('Stiffness')
+    xlabel(x_label)
     plot(x_center, means)
     low = means - stds;
     high = means + stds;
     xx = [x_center fliplr(x_center)];
     yy = [low fliplr(high)];
-    fill(xx, yy, 'r', 'EdgeColor', 'none', 'FaceAlpha', 0.2)
+    fill(xx, yy, 'r', 'EdgeColor', 'none', 'FaceAlpha', 0.2);
+    yyaxis right
+    ylabel('Elements per Bin')
+    plot(x_center, count);
 end
 

@@ -1,4 +1,4 @@
-function [ptcl] = VolumeToPointcloud(vox_volume)
+function [ptcl] = volumeToPointcloud(vox_volume)
 %Creates a pointcloud (x/y/z triplets with intensity) of a voxel volume
     %   Minimum position is (1/1/1) and maximum position is size(image)
     % ptcl: Struct with .pos and .val

@@ -5,8 +5,8 @@ vol_90deg = load('MaskedVolume_SWE_C190201_L3L4_90deg_2019_07_31_15_4.mat');
 vol_90deg = vol_90deg.masked_vol;
 
 % Transform into Pointcloud
-pcl_0deg = VolumeToPointcloud(vol_0deg);
-pcl_90deg = VolumeToPointcloud(vol_90deg);
+pcl_0deg = volumeToPointcloud(vol_0deg);
+pcl_90deg = volumeToPointcloud(vol_90deg);
 
 %% Remove -1 and NaN values
 % 0deg
@@ -20,15 +20,15 @@ pcl_90deg.val(isnan(pcl_90deg.val)) = [];
 % pcl_90deg.pos(pcl_90deg.val == -1, :) = [];
 % pcl_90deg.val(pcl_90deg.val == -1, :) = [];
 
-%% Rotation
+%% Rotation experiments
 R1 = [1, 0, 0; 0, 1, 0; 0, 0, 1];   % no rotation
 R2 = [0, -1, 0; 1, 0, 0; 0, 0, 1];  % +90deg around z
-R3 = [0, 1, 0; -1, 0, 0;, 0, 0, 1]; % -90deg around z
+R3 = [0, 1, 0; -1, 0, 0; 0, 0, 1]; % -90deg around z
 pcl_90deg.pos = (R2 * pcl_90deg.pos.')';
 
 %% Calculate Centroids and their difference
-center_0deg = CentroidPcl(pcl_0deg);
-center_90deg = CentroidPcl(pcl_90deg);
+center_0deg = centroidPcl(pcl_0deg);
+center_90deg = centroidPcl(pcl_90deg);
 tf = center_90deg - center_0deg;
 
 %% Translation

@@ -1,4 +1,4 @@
-function [pos] = CentroidVol(maskedVol)
+function [pos] = centroidVol(maskedVol)
     m1mask = maskedVol == -1;
     maskedVol(m1mask) = NaN;
     pcl = VolumeToPointcloud(maskedVol);

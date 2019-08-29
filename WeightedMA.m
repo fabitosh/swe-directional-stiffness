@@ -1,4 +1,4 @@
-function [filtered_data] = WeightedMA(inputdata, weights, filterwidth)
+function [filtered_data] = weightedMA(inputdata, weights, filterwidth)
 % Filtering inputdata with a moving average of size filterwidth.
 % The filter components are weighted according to the corresponding values
 % in the weight vector. 
