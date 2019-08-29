@@ -26,7 +26,7 @@ center_90deg = round(CentroidPcl(pcl_90deg));
 pcl_0deg.pos(:, 1:2) = pcl_0deg.pos(:, 1:2) - center_0deg(1:2);  % Keep z coordinate original
 pcl_90deg.pos(:, 1:2) = pcl_90deg.pos(:, 1:2) - center_90deg(1:2);  % Keep z coordinate original
 
-%% Create cylindrical coordinate system around centroids
+%% Create cylindrical coordinate system coordinates around centroids
 % [rho, theta, z]
 [pcl_0deg.pos_cyl(:, 2), pcl_0deg.pos_cyl(:, 1)] = cart2pol(pcl_0deg.pos(:, 1),pcl_0deg.pos(:, 2));
 pcl_0deg.pos_cyl(:, 3) = pcl_0deg.pos(: , 3);
@@ -34,35 +34,26 @@ pcl_0deg.pos_cyl(:, 3) = pcl_0deg.pos(: , 3);
 [pcl_90deg.pos_cyl(:, 2), pcl_90deg.pos_cyl(:, 1)] = cart2pol(pcl_90deg.pos(:, 1),pcl_90deg.pos(:, 2));
 pcl_90deg.pos_cyl(:, 3) = pcl_90deg.pos(: , 3);
 
-%% Visualise Results
-% 2D Plots
+%% ////// Visualise Results //////
+%% 2D Plots in Cylindrical coordinates
 % .pos_cyl(:, 1) are rho values, .pos_cyl(:, 2) are theta values
-xleft = pcl_0deg.pos_cyl(:, 1);
-xright = pcl_90deg.pos_cyl(:, 1);
+xtop = pcl_0deg.pos_cyl(:, 1);
+xbot = pcl_90deg.pos_cyl(:, 1);
 
 figure(1)
 subplot(221)
-visualizeCylindricalStiffness(xleft, pcl_0deg.val, 30)
+binnedDataVisualisation(xtop, pcl_0deg.val, 30)
 subplot(223)
-visualizeCylindricalStiffness(xright, pcl_90deg.val, 30)
+binnedDataVisualisation(xbot, pcl_90deg.val, 30)
 subplot(222)
-polyFit(xleft, pcl_0deg.val, 8)
+polyFit(xtop, pcl_0deg.val, 6)
 subplot(224)
-polyFit(xright, pcl_90deg.val, 8)
+polyFit(xbot, pcl_90deg.val, 6)
 
-
-% 2D data binning
-surf2DStiffness(pcl_0deg, 5)
-surf2DStiffness(pcl_90deg, 5)
-compareStiffnessSurf
-
-figure()
-set(gcf,'position',[10,100,1600,800])
-subplot(121)
-surf(smoothed_stiffness_array)
-subplot(122)
-surf(smoothed_stiffness_array)
-view(0,90)
+%% 3D Visualizations
+% Work with the carthesian coordinate system
+plot2DStiffness(computeSmoothed2DStiffness(pcl_0deg, 5))
+compareStiffnessSurf(pcl_0deg, pcl_90deg, 5)
 
 
 
