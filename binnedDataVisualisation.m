@@ -29,7 +29,7 @@ function binnedDataVisualisation(x, y, nr_bins, x_label)
     high = means + stds;
     xx = [x_center fliplr(x_center)];
     yy = [low fliplr(high)];
-    fill(xx, yy, 'r', 'EdgeColor', 'none', 'FaceAlpha', 0.2);
+    fill(xx, yy, 'k', 'EdgeColor', 'none', 'FaceAlpha', 0.25);
     yyaxis right
     ylabel('Elements per Bin')
     plot(x_center, count);

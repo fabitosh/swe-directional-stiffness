@@ -1,24 +1,37 @@
 %% Set directory to save output files
-plotpath = 'uberplots/';
+plotpath = 'all_visualisations/';
 if ~exist(plotpath, 'dir')
   mkdir(plotpath);
 end
 
-%% Loop over folder
+%% Loop over experiment folder
 datapath = '/Users/fabiomeier/Documents/MATLAB/Maskedvolume_SWE/';
 files = dir(strcat(datapath,'*.mat'));
 L = length(files);
 
-% files = datadir('*.mat');
-for file = 1:L
-    %% Load MaskedVolume Files
-    name_base = file.name;
-    % name_0deg =
-    % name_90deg =
+str = cell(L, 10);
+basenames = cell(L, 1);
+for ii = 1:L
+    str(ii, :) = split(files(ii).name, "_")';
+    basenames(ii) = strjoin({str(ii, 3), str(ii, 4)})
+end
 
-    vol_0deg = load('MaskedVolume_SWE_C190201_L3L4_0deg_2019_07_31_15_3.mat');
+for ii = 1:2:L
+    %% Get corresponding Experiment Pair out of Dataset
+    str = split(files(ii).name, "_");
+    basename = join([str(3), str(4)], "_");
+    disp(basename)
+    if strcmp(str(5), "0deg") 
+        name_0deg = files(ii).name;      
+        name_90deg = files(ii+1).name;
+        disp(name_0deg)
+        disp(name_90deg)
+    end
+    
+    %% Load MaskedVolume Files
+    vol_0deg = load([datapath name_0deg]);
     vol_0deg = vol_0deg.masked_vol;
-    vol_90deg = load('MaskedVolume_SWE_C190201_L3L4_90deg_2019_07_31_15_4.mat');
+    vol_90deg = load([datapath name_90deg]);
     vol_90deg = vol_90deg.masked_vol;
 
     %% Transform into Pointcloud
@@ -72,11 +85,11 @@ for file = 1:L
     %% 3D Visualizations
     % Those work with the carthesian coordinate system
 
-    plot2DStiffness(computeSmoothed2DStiffness(pcl_0deg, 1.5)); % Only look at one scan
-    compareStiffnessSurf(pcl_0deg, pcl_90deg, 1.5); % Compare 0 and 90 degree scans
+%     plot2DStiffness(computeSmoothed2DStiffness(pcl_0deg, 1.5)); % Only look at one scan
+%     compareStiffnessSurf(pcl_0deg, pcl_90deg, 1.5); % Compare 0 and 90 degree scans
 
     %% UEBERPLOT
-    figure
+    figure('visible','off')
     set(gcf,'position',[10,100,1600,800])
     title('Experiment Name') 
     subplot(241)
@@ -101,6 +114,9 @@ for file = 1:L
     s.EdgeColor = 'none';
     axis equal
     view(0,90)
-    saveas(gcf,[name_base, '.png'])
-    saveas(gcf,[name_base, '.fig'])
+    path_png = char(fullfile(plotpath, join([basename, '.png'], "")));
+    path_fig = char(fullfile(plotpath, join([basename, '.fig'], "")));
+    saveas(gcf, path_png);
+    saveas(gcf, path_fig);
+    
 end
