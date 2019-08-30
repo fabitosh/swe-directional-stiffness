@@ -24,7 +24,7 @@ pcl_90deg.val(isnan(pcl_90deg.val)) = [];
 R1 = [1, 0, 0; 0, 1, 0; 0, 0, 1];   % no rotation
 R2 = [0, -1, 0; 1, 0, 0; 0, 0, 1];  % +90deg around z
 R3 = [0, 1, 0; -1, 0, 0; 0, 0, 1]; % -90deg around z
-% pcl_90deg.pos = (R2 * pcl_90deg.pos.')';
+pcl_90deg.pos = (R2 * pcl_90deg.pos.')';
 
 %% Calculate Centroids and their difference
 center_0deg = centroidPcl(pcl_0deg);
@@ -32,10 +32,10 @@ center_90deg = centroidPcl(pcl_90deg);
 tf = center_90deg - center_0deg;
 
 %% Translation
-% pcl_90deg.pos = pcl_90deg.pos - tf;
+pcl_90deg.pos = pcl_90deg.pos - tf;
 
 %% Visualize the wobababu
-figure(2)
+figure()
 subplot(221)
 title("xz")
 scatter(pcl_0deg.pos(:, 1), pcl_0deg.pos(:, 3),'.'); hold on;

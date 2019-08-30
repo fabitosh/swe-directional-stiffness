@@ -34,6 +34,8 @@ function [smoothed_stiffness_array_filtered] = computeSmoothed2DStiffness(pcl, c
     counts_smoothed = conv2(counts, filter, 'same');
     smoothed_stiffness_array = sums_smoothed./counts_smoothed; % Normalization 
     smoothed_stiffness_array_filtered = (counts_smoothed > count_threshold).* smoothed_stiffness_array;
+
+
     
     % If subsampling is desired, uncomment the following line:
     %smoothed_stiffness_array = smoothed_stiffness_array(1:conv_filter_size:end,1:conv_filter_size:end);
