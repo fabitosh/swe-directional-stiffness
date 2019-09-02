@@ -20,6 +20,6 @@ function [mask_array] = computeMaskArray(pcl)
 %               1, 1, 2, 1, 1];
 %     filter = 1/sum(filter, 'all').* filter; 
     mask_array = conv2(counts, filter, 'same');
-    mask_array = (mask_array > 0).*-1;
+    mask_array = (mask_array > 0).*1;
 end
 

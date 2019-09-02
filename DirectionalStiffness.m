@@ -1,5 +1,5 @@
 %% Set directory to save output files
-plotpath = 'all_visualisations/';
+plotpath = 'mask_vis/';
 if ~exist(plotpath, 'dir')
   mkdir(plotpath);
 end
@@ -41,14 +41,3 @@ for ii = 1:2:L
     saveas(gcf, path_png);
 %     saveas(gcf, path_fig);
 end
-
-a = computeMaskArray(pcl_90deg_masked);
-b = computeSmoothed2DStiffness(pcl_90deg, 2);
-
-figure
-contourf(a); colormap(gray); hold on;
-contourf(b);
-colormap(jet);
-
-figure
-surf(b)

@@ -1,4 +1,4 @@
-function [smoothed_stiffness_array_filtered] = computeSmoothed2DStiffness(pcl, count_threshold) 
+function [smoothed_stiffness_array_filtered] = compSmoothed2DStiffnessArray(pcl, count_threshold) 
 % Takes a pointcloud pcl, flattens it to the xy-plane (averaging over all z
 % values).
 % Smoothens the output with a 2d gaussian mask of size 5 in both directions.
@@ -22,7 +22,7 @@ function [smoothed_stiffness_array_filtered] = computeSmoothed2DStiffness(pcl, c
     sums = accumarray([xidx(:), yidx(:)], z);
 
     %% Smoothen out the data with a 2D convolution
-%     conv_filter_size = 5;
+%     conv_filter_size = 1;
 %     filter = ones(conv_filter_size)/(conv_filter_size*conv_filter_size);
     filter = [1, 1, 2, 1, 1;
               1, 2, 4, 2, 1; 
@@ -35,8 +35,6 @@ function [smoothed_stiffness_array_filtered] = computeSmoothed2DStiffness(pcl, c
     smoothed_stiffness_array = sums_smoothed./counts_smoothed; % Normalization 
     smoothed_stiffness_array_filtered = (counts_smoothed > count_threshold).* smoothed_stiffness_array;
 
-
-    
     % If subsampling is desired, uncomment the following line:
     %smoothed_stiffness_array = smoothed_stiffness_array(1:conv_filter_size:end,1:conv_filter_size:end);
 
