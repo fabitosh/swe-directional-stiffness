@@ -35,8 +35,8 @@ pcl_0deg.pos = pcl_0deg.pos - center_0deg;
 pcl_90deg.pos = pcl_90deg.pos - center_90deg;
 
 % Masks are identical. Thus alignment over Principle Components.
-R_I0 = pca(pcl_0deg.pos);
-R_I90 = pca(pcl_90deg.pos);
+R_I0 = sortPcaRot(pca(pcl_0deg.pos));
+R_I90 = sortPcaRot(pca(pcl_90deg.pos));
 % T_Izero  = [R_Izero,  center_0deg';  zeros(1, 3), 1];
 % T_Ininty = [R_Ininty, center_90deg'; zeros(1, 3), 1];
 % Determine Angle between the PCA Main Component Coordinate Systems

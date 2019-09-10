@@ -10,12 +10,83 @@ function uberplotMaskedVolPair(vol_0deg_mask, vol_90deg_mask)
     % 90deg
     pcl_90deg_masked.pos(isnan(pcl_90deg_masked.val), :) = [];
     pcl_90deg_masked.val(isnan(pcl_90deg_masked.val)) = [];
+    %% Visualize the wobababu
+    if true
+        figure(1)
+        subplot(221)
+        scatter(pcl_0deg_masked.pos(:, 1), pcl_0deg_masked.pos(:, 3),'.'); hold on;
+        scatter(pcl_90deg_masked.pos(:, 1), pcl_90deg_masked.pos(:, 3),'.'); hold off;
+        legend('0 deg', '90 deg');
+        xlabel('x-Axis')
+        ylabel('z-Axis')
+        title("xz")
+        axis equal;
+        subplot(222)
+        scatter(pcl_0deg_masked.pos(:, 2), pcl_0deg_masked.pos(:, 3),'.'); hold on;
+        scatter(pcl_90deg_masked.pos(:, 2), pcl_90deg_masked.pos(:, 3),'.'); hold off;
+        xlabel('y-Axis')
+        ylabel('z-Axis')
+        title("yz")
+        axis equal;
+        subplot(223)
+        scatter(pcl_0deg_masked.pos(:, 1), pcl_0deg_masked.pos(:, 2),'.'); hold on;
+        scatter(pcl_90deg_masked.pos(:, 1), pcl_90deg_masked.pos(:, 2),'.'); hold off;
+        xlabel('x-Axis')
+        ylabel('y-Axis')
+        title("xy")
+        axis equal;
+        subplot(224)
+        scatter3(pcl_0deg_masked.pos(:, 1), pcl_0deg_masked.pos(:, 2), pcl_0deg_masked.pos(:, 3),'.'); hold on;
+        scatter3(pcl_90deg_masked.pos(:, 1), pcl_90deg_masked.pos(:, 2), pcl_90deg_masked.pos(:, 3),'.'); hold off;
+        xlabel('x-Axis')
+        ylabel('y-Axis')
+        zlabel('z-Axis')
+        title("3D View")
+        axis equal;
+    end
+    %% ALIGNNNN
+    [pcl_0deg_masked, pcl_90deg_masked] = alignPcls(pcl_0deg_masked, pcl_90deg_masked);
+    
+    %% VISUALIZE
+    if true
+        figure(2)
+        subplot(221)
+        scatter(pcl_0deg_masked.pos(:, 1), pcl_0deg_masked.pos(:, 3),'.'); hold on;
+        scatter(pcl_90deg_masked.pos(:, 1), pcl_90deg_masked.pos(:, 3),'.'); hold off;
+        legend('0 deg', '90 deg');
+        xlabel('x-Axis')
+        ylabel('z-Axis')
+        title("xz")
+        axis equal;
+        subplot(222)
+        scatter(pcl_0deg_masked.pos(:, 2), pcl_0deg_masked.pos(:, 3),'.'); hold on;
+        scatter(pcl_90deg_masked.pos(:, 2), pcl_90deg_masked.pos(:, 3),'.'); hold off;
+        xlabel('y-Axis')
+        ylabel('z-Axis')
+        title("yz")
+        axis equal;
+        subplot(223)
+        scatter(pcl_0deg_masked.pos(:, 1), pcl_0deg_masked.pos(:, 2),'.'); hold on;
+        scatter(pcl_90deg_masked.pos(:, 1), pcl_90deg_masked.pos(:, 2),'.'); hold off;
+        xlabel('x-Axis')
+        ylabel('y-Axis')
+        title("xy")
+        axis equal;
+        subplot(224)
+        scatter3(pcl_0deg_masked.pos(:, 1), pcl_0deg_masked.pos(:, 2), pcl_0deg_masked.pos(:, 3),'.'); hold on;
+        scatter3(pcl_90deg_masked.pos(:, 1), pcl_90deg_masked.pos(:, 2), pcl_90deg_masked.pos(:, 3),'.'); hold off;
+        xlabel('x-Axis')
+        ylabel('y-Axis')
+        zlabel('z-Axis')
+        title("3D View")
+        axis equal;
+    end
           
     %% Calculate Centroids and shift x-y coordinates
-    center_0deg = round(centroidPcl(pcl_0deg_masked));
-    center_90deg = round(centroidPcl(pcl_90deg_masked));
-    pcl_0deg_masked.pos(:, 1:2) = pcl_0deg_masked.pos(:, 1:2) - center_0deg(1:2);  % Keep z coordinate original
-    pcl_90deg_masked.pos(:, 1:2) = pcl_90deg_masked.pos(:, 1:2) - center_90deg(1:2);  % Keep z coordinate original
+%     center_0deg = round(centroidPcl(pcl_0deg_masked));
+%     center_90deg = round(centroidPcl(pcl_90deg_masked));
+%     pcl_0deg_masked.pos(:, 1:2) = pcl_0deg_masked.pos(:, 1:2) - center_0deg(1:2);  % Keep z coordinate original
+%     pcl_90deg_masked.pos(:, 1:2) = pcl_90deg_masked.pos(:, 1:2) - center_90deg(1:2);  % Keep z coordinate original
     
     % Duplicate pcl: now pcl only containing stiffness measurements and a
     % pcl also including mask points
