@@ -11,8 +11,10 @@ function [mask_array] = compMaskArray(pcl)
     counts = accumarray([xidx(:), yidx(:)], 1); 
 
     %% Smoothen out the data with a 2D convolution
-%     conv_filter_size = 3;
-%     filter = ones(conv_filter_size)/(conv_filter_size*conv_filter_size);
+    % A) Mean Mask:
+    %conv_filter_size = 3;
+    %filter = ones(conv_filter_size)/(conv_filter_size*conv_filter_size);
+    % B) Gaussian Mask
     filter = [1, 1, 2, 1, 1;
               1, 2, 4, 2, 1; 
               2, 4, 8, 2, 1;
@@ -20,6 +22,6 @@ function [mask_array] = compMaskArray(pcl)
               1, 1, 2, 1, 1];
     filter = 1/sum(filter, 'all').* filter; 
     mask_array = conv2(counts, filter, 'same');
-    mask_array = (mask_array ~= 0).* 16;
+    mask_array = (mask_array ~= 0).* 16; % Value for all points masked. Will be interpreted in later visualisation.
 end
 

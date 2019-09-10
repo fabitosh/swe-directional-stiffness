@@ -22,8 +22,10 @@ function [smoothed_stiffness_array_filtered] = compSmoothed2DStiffnessArray(pcl,
     sums = accumarray([xidx(:), yidx(:)], z);
 
     %% Smoothen out the data with a 2D convolution
-%     conv_filter_size = 1;
-%     filter = ones(conv_filter_size)/(conv_filter_size*conv_filter_size);
+    % A) Mean Mask:
+    %conv_filter_size = 3;
+    %filter = ones(conv_filter_size)/(conv_filter_size*conv_filter_size);
+    % B) Gaussian Mask
     filter = [1, 1, 2, 1, 1;
               1, 2, 4, 2, 1; 
               2, 4, 8, 2, 1;
@@ -38,7 +40,7 @@ function [smoothed_stiffness_array_filtered] = compSmoothed2DStiffnessArray(pcl,
     % If subsampling is desired, uncomment the following line:
     %smoothed_stiffness_array = smoothed_stiffness_array(1:conv_filter_size:end,1:conv_filter_size:end);
 
-    %create a list of the z that fall into each unique x/y combination
-%     zs = accumarray([xidx(:), yidx(:)], z, [], @(V) {V}, {});
+    % Create a list of the z that fall into each unique x/y combination
+    %zs = accumarray([xidx(:), yidx(:)], z, [], @(V) {V}, {});
 end
 

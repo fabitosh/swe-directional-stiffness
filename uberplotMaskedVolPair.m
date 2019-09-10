@@ -79,6 +79,10 @@ function uberplotMaskedVolPair(vol_0deg_mask, vol_90deg_mask)
 end
 
 function plotMaskAndStiffness(pcl_masked, pcl, shift, cutoff)
+% Displaying a surf plot of the mask in the background and overlaying it
+% with the corresponding filtered stiffness pcl. Shift and Cutoff values
+% need to be computed after stripping the mask points off the masked
+% pointcloud. 
     %% Plot Mask
     mask_array = compMaskArray(pcl_masked);
     surf(mask_array, 'EdgeColor', 'none', 'FaceAlpha', 0.2); hold on;
