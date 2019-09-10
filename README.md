@@ -3,9 +3,7 @@ The script is developed to be used within a pipeline processing multiple shear w
 
 The two 3d-grid volumes are aligned according to their (ideally identical) object mask. Mask points have -1 stiffness values and are only used to compute the center of the object and to align the two volumes.
 
-For the test object stiffness in z-direction is taken as invariant and the dataset is flattend.
-Regional stiffnesses in x-y plane are computed. A convolution with a gaussian mask is conducted to smoothen the image output. A threshold for a minimum amount of measurements within a point is set to control outliers.
-The stiffnesses are then interpretable and the two directional scans can be compared.
+The stiffness data is processed and visualised in a cylindrical coordinate system as well as a graphical interface. The directional stiffnesses can be interpreted as function of parameters such as radius, angle etc.
 
 Developed and tested on MATLAB R2018b
 
@@ -15,5 +13,5 @@ Main Executable. Handling the experiment volume pairs, which need to be placed w
 ### uberplotMaskedVolPair.m
 * Transforms the volumes to pointclouds (pcls)
 * Aligns the second pcl to the first using the differences of the principal component analysis (PCA). This alignment is dependant on the similarity of the two masks. As main axes are untouched, a reasonable alignment between the volumes is required. 
-* Computes stiffness interpretations of the volumes and visualizes them on top of the masks. The data is flattened onto the x-y-pane and smoothened with a gaussian convolution filter in _compSmoothed2DStiffnessArray()_
+* Computes stiffness interpretations of the volumes and visualizes them on top of the masks. The data is flattened onto the x-y-pane and smoothened with a gaussian convolution filter in _compSmoothed2DStiffnessArray()_. Additionaly a threshold is introduced, requiring a minimum amount of measurements to be represented in the plot. 
 * Alternatively, stiffness is plotted for different variables. To make the scatter plot better interpretable, _binnedDataVisualisation()_ also mean and standard deviations for _nr_bins_ equally spread segments of the dependent variable. 
