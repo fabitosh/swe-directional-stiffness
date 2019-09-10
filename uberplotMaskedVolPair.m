@@ -115,4 +115,5 @@ function plotMaskAndStiffness(pcl_masked, pcl, shift, cutoff)
     plot3(cog_idy, cog_idx, 17, 'rx');
     
     view(0,90)
+    axis equal
 end

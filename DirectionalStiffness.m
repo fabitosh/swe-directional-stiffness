@@ -5,7 +5,7 @@ if ~exist(plotpath, 'dir')
 end
 
 %% Loop over experiment folder
-datapath = '/Users/fabiomeier/Documents/MATLAB/Maskedvolume_SWE/';
+datapath = '/Users/fabiomeier/Documents/MATLAB/masked_volumes/';
 files = dir(strcat(datapath,'*.mat'));
 L = length(files);
 
@@ -26,7 +26,8 @@ for ii = 1:2:L
             return
         end
     else
-        disp('First file of index uneven (1, 3, ...) was not with a 0deg orientation.')
+        disp('First file of index uneven (1, 3, ...) was not with a 0deg orientation. Filename:')
+        disp (files(ii).name)
         return
     end
     vol_0deg_mask = load([datapath name_0deg]);
