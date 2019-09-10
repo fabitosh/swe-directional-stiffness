@@ -1,13 +1,11 @@
 function uberplotMaskedVolPair(vol_0deg_mask, vol_90deg_mask)
-    %% Transform into Pointcloud
+    %% Transform Voxel Volume into Pointcloud
     pcl_0deg_masked = volumeToPointcloud(vol_0deg_mask);
     pcl_90deg_masked = volumeToPointcloud(vol_90deg_mask);
     
     %% Remove NaN values
-    % 0deg
     pcl_0deg_masked.pos(isnan(pcl_0deg_masked.val), :) = [];
     pcl_0deg_masked.val(isnan(pcl_0deg_masked.val)) = [];
-    % 90deg
     pcl_90deg_masked.pos(isnan(pcl_90deg_masked.val), :) = [];
     pcl_90deg_masked.val(isnan(pcl_90deg_masked.val)) = [];
  
@@ -15,8 +13,9 @@ function uberplotMaskedVolPair(vol_0deg_mask, vol_90deg_mask)
     [pcl_0deg_masked, pcl_90deg_masked] = alignPcls(pcl_0deg_masked, pcl_90deg_masked);
     
     %% Create Mask and Value Pcls
-    % Duplicate pcl: now pcl only containing stiffness measurements and a
-    % pcl also including mask points
+    % - One pcl only containing stiffness measurements. Used for experiment
+    % interpretation, sometimes referred to as stiffness pcl
+    % - One pcl also including mask points. Used for visualisation
     pcl_0deg = pcl_0deg_masked;
     pcl_90deg = pcl_90deg_masked;
     min_pos_0deg_mask = min(pcl_0deg.pos);
@@ -24,7 +23,7 @@ function uberplotMaskedVolPair(vol_0deg_mask, vol_90deg_mask)
     min_pos_90deg_mask = min(pcl_90deg.pos);
     max_pos_90deg_mask = max(pcl_90deg.pos);
     
-    % Delete mask points in the stiffness pcl
+    % Delete mask points (val = -1) in the stiffness pcl
     pcl_0deg.pos(pcl_0deg.val == -1, :) = [];
     pcl_0deg.val(pcl_0deg.val == -1, :) = [];
     pcl_90deg.pos(pcl_90deg.val == -1, :) = [];
@@ -50,7 +49,7 @@ function uberplotMaskedVolPair(vol_0deg_mask, vol_90deg_mask)
 
     %% 3D Visualizations
     % Those work with the carthesian coordinate system
-%     plot2DStiffness(computeSmoothed2DStiffness(pcl_0deg, 1.5)); % Only look at one scan
+    %plot2DStiffness(computeSmoothed2DStiffness(pcl_0deg, 1.5)); % Only look at one scan
     %compareStiffnessSurf(pcl_0deg, pcl_90deg, 1.5); % Compare 0 and 90 degree scans
 
     %% UEBERPLOT
@@ -84,7 +83,7 @@ function plotMaskAndStiffness(pcl_masked, pcl, shift, cutoff)
     mask_array = compMaskArray(pcl_masked);
     surf(mask_array, 'EdgeColor', 'none', 'FaceAlpha', 0.2); hold on;
     
-    %% Plot Stiffness
+    %% Plot Stiffness on top of the mask
     stiffness_array = compSmoothed2DStiffnessArray(pcl, 2);
     shift_y = shift(1);
     shift_x = shift(2);
@@ -99,7 +98,7 @@ function plotMaskAndStiffness(pcl_masked, pcl, shift, cutoff)
     colorbar
     caxis([0 16])
       
-    % Plot Center of Cylindrical Coordinate System
+    %% Plot Center of Cylindrical Coordinate System
     cog = centroidPcl(pcl_masked);
     minpcl = min(pcl_masked.pos);
     maxpcl = max(pcl_masked.pos);
