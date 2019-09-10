@@ -10,84 +10,11 @@ function uberplotMaskedVolPair(vol_0deg_mask, vol_90deg_mask)
     % 90deg
     pcl_90deg_masked.pos(isnan(pcl_90deg_masked.val), :) = [];
     pcl_90deg_masked.val(isnan(pcl_90deg_masked.val)) = [];
-    %% Visualize the wobababu
-    if true
-        figure(1)
-        subplot(221)
-        scatter(pcl_0deg_masked.pos(:, 1), pcl_0deg_masked.pos(:, 3),'.'); hold on;
-        scatter(pcl_90deg_masked.pos(:, 1), pcl_90deg_masked.pos(:, 3),'.'); hold off;
-        legend('0 deg', '90 deg');
-        xlabel('x-Axis')
-        ylabel('z-Axis')
-        title("xz")
-        axis equal;
-        subplot(222)
-        scatter(pcl_0deg_masked.pos(:, 2), pcl_0deg_masked.pos(:, 3),'.'); hold on;
-        scatter(pcl_90deg_masked.pos(:, 2), pcl_90deg_masked.pos(:, 3),'.'); hold off;
-        xlabel('y-Axis')
-        ylabel('z-Axis')
-        title("yz")
-        axis equal;
-        subplot(223)
-        scatter(pcl_0deg_masked.pos(:, 1), pcl_0deg_masked.pos(:, 2),'.'); hold on;
-        scatter(pcl_90deg_masked.pos(:, 1), pcl_90deg_masked.pos(:, 2),'.'); hold off;
-        xlabel('x-Axis')
-        ylabel('y-Axis')
-        title("xy")
-        axis equal;
-        subplot(224)
-        scatter3(pcl_0deg_masked.pos(:, 1), pcl_0deg_masked.pos(:, 2), pcl_0deg_masked.pos(:, 3),'.'); hold on;
-        scatter3(pcl_90deg_masked.pos(:, 1), pcl_90deg_masked.pos(:, 2), pcl_90deg_masked.pos(:, 3),'.'); hold off;
-        xlabel('x-Axis')
-        ylabel('y-Axis')
-        zlabel('z-Axis')
-        title("3D View")
-        axis equal;
-    end
-    %% ALIGNNNN
+ 
+    %% Rotate and align the two pointclouds to each other according to the masks
     [pcl_0deg_masked, pcl_90deg_masked] = alignPcls(pcl_0deg_masked, pcl_90deg_masked);
     
-    %% VISUALIZE
-    if true
-        figure(2)
-        subplot(221)
-        scatter(pcl_0deg_masked.pos(:, 1), pcl_0deg_masked.pos(:, 3),'.'); hold on;
-        scatter(pcl_90deg_masked.pos(:, 1), pcl_90deg_masked.pos(:, 3),'.'); hold off;
-        legend('0 deg', '90 deg');
-        xlabel('x-Axis')
-        ylabel('z-Axis')
-        title("xz")
-        axis equal;
-        subplot(222)
-        scatter(pcl_0deg_masked.pos(:, 2), pcl_0deg_masked.pos(:, 3),'.'); hold on;
-        scatter(pcl_90deg_masked.pos(:, 2), pcl_90deg_masked.pos(:, 3),'.'); hold off;
-        xlabel('y-Axis')
-        ylabel('z-Axis')
-        title("yz")
-        axis equal;
-        subplot(223)
-        scatter(pcl_0deg_masked.pos(:, 1), pcl_0deg_masked.pos(:, 2),'.'); hold on;
-        scatter(pcl_90deg_masked.pos(:, 1), pcl_90deg_masked.pos(:, 2),'.'); hold off;
-        xlabel('x-Axis')
-        ylabel('y-Axis')
-        title("xy")
-        axis equal;
-        subplot(224)
-        scatter3(pcl_0deg_masked.pos(:, 1), pcl_0deg_masked.pos(:, 2), pcl_0deg_masked.pos(:, 3),'.'); hold on;
-        scatter3(pcl_90deg_masked.pos(:, 1), pcl_90deg_masked.pos(:, 2), pcl_90deg_masked.pos(:, 3),'.'); hold off;
-        xlabel('x-Axis')
-        ylabel('y-Axis')
-        zlabel('z-Axis')
-        title("3D View")
-        axis equal;
-    end
-          
-    %% Calculate Centroids and shift x-y coordinates
-%     center_0deg = round(centroidPcl(pcl_0deg_masked));
-%     center_90deg = round(centroidPcl(pcl_90deg_masked));
-%     pcl_0deg_masked.pos(:, 1:2) = pcl_0deg_masked.pos(:, 1:2) - center_0deg(1:2);  % Keep z coordinate original
-%     pcl_90deg_masked.pos(:, 1:2) = pcl_90deg_masked.pos(:, 1:2) - center_90deg(1:2);  % Keep z coordinate original
-    
+    %% Create Mask and Value Pcls
     % Duplicate pcl: now pcl only containing stiffness measurements and a
     % pcl also including mask points
     pcl_0deg = pcl_0deg_masked;
@@ -108,10 +35,10 @@ function uberplotMaskedVolPair(vol_0deg_mask, vol_90deg_mask)
     max_pos_90deg = max(pcl_90deg.pos);
     
     %Calculate the shift done by the deletion of the mask points
-    shift_0deg = min_pos_0deg - min_pos_0deg_mask    
-    shift_90deg = min_pos_90deg - min_pos_90deg_mask
-    cutoff_0deg = max_pos_0deg_mask - max_pos_0deg
-    cutoff_90deg = max_pos_90deg_mask - max_pos_90deg
+    shift_0deg = min_pos_0deg - min_pos_0deg_mask;    
+    shift_90deg = min_pos_90deg - min_pos_90deg_mask;
+    cutoff_0deg = max_pos_0deg_mask - max_pos_0deg;
+    cutoff_90deg = max_pos_90deg_mask - max_pos_90deg;
     
     %% Create cylindrical coordinate system coordinates around centroids
     % pcl_0deg.pos_cyl is set up in [rho, theta, z]
@@ -127,7 +54,7 @@ function uberplotMaskedVolPair(vol_0deg_mask, vol_90deg_mask)
     %compareStiffnessSurf(pcl_0deg, pcl_90deg, 1.5); % Compare 0 and 90 degree scans
 
     %% UEBERPLOT
-    figure('visible','on')
+    figure('visible','off')
     set(gcf,'position',[10,100,1600,800])
     subplot(241)
     binnedDataVisualisation(pcl_0deg.pos_cyl(:, 1), pcl_0deg.val, 30, 'Radius - 0deg Scan');
@@ -142,9 +69,9 @@ function uberplotMaskedVolPair(vol_0deg_mask, vol_90deg_mask)
     subplot(247)
     binnedDataVisualisation(pcl_90deg.pos_cyl(:, 3), pcl_90deg.val, 30, 'Height - 90deg Scan');   
     subplot(244)
-    plotMaskAndStiffness(pcl_0deg_masked, pcl_0deg, shift_0deg, cutoff_0deg)
+    plotMaskAndStiffness(pcl_0deg_masked, pcl_0deg, shift_0deg, cutoff_0deg);
     subplot(248)
-    plotMaskAndStiffness(pcl_90deg_masked, pcl_90deg, shift_90deg, cutoff_90deg)
+    plotMaskAndStiffness(pcl_90deg_masked, pcl_90deg, shift_90deg, cutoff_90deg);
 
 %     subplot(121)
 %     plotMaskAndStiffness(pcl_0deg_masked, pcl_0deg, shift_0deg, cutoff_0deg)
@@ -155,12 +82,10 @@ end
 function plotMaskAndStiffness(pcl_masked, pcl, shift, cutoff)
     %% Plot Mask
     mask_array = compMaskArray(pcl_masked);
-    disp(size(mask_array))
     surf(mask_array, 'EdgeColor', 'none', 'FaceAlpha', 0.2); hold on;
     
     %% Plot Stiffness
     stiffness_array = compSmoothed2DStiffnessArray(pcl, 2);
-    disp(size(stiffness_array))
     shift_y = shift(1);
     shift_x = shift(2);
     cutoff_y = cutoff(1);
@@ -170,8 +95,6 @@ function plotMaskAndStiffness(pcl_masked, pcl, shift, cutoff)
         [NaN(shift_y, shift_x + x_stiff + cutoff_x); ...
          NaN(y_stiff, shift_x), stiffness_array, NaN(y_stiff, cutoff_x);
          NaN(cutoff_y, shift_x + x_stiff + cutoff_x)];
-                               
-    disp(size(stiffness_array_shifted))
     surf(stiffness_array_shifted, 'EdgeColor', 'none', 'FaceAlpha', 1);
     colorbar
     caxis([0 16])
@@ -181,10 +104,9 @@ function plotMaskAndStiffness(pcl_masked, pcl, shift, cutoff)
     minpcl = min(pcl_masked.pos);
     maxpcl = max(pcl_masked.pos);
     cog_ratio = (cog - minpcl) ./ (maxpcl - minpcl);
-    cog_idy = round(cog_ratio(1) * size(stiffness_array_shifted, 1))
-    cog_idx = round(cog_ratio(2) * size(stiffness_array_shifted, 2))
+    cog_idy = round(cog_ratio(1) * size(stiffness_array_shifted, 1));
+    cog_idx = round(cog_ratio(2) * size(stiffness_array_shifted, 2));
     plot3(cog_idy, cog_idx, 17, 'rx');
-    
     view(0,90)
     axis equal
 end

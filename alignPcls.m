@@ -17,10 +17,11 @@ function [pcl_0deg, pcl_90deg] = alignPcls(pcl_0deg,pcl_90deg)
     R_I90 = sortPcaRot(pca(pcl_90deg.pos));
     % T_Izero  = [R_Izero,  center_0deg';  zeros(1, 3), 1];
     % T_Ininty = [R_Ininty, center_90deg'; zeros(1, 3), 1];
+    
     % Determine Angle between the PCA Main Component Coordinate Systems
     % We only want to align volumes to each other and not change the introduced
     % coordinate system.
-    R_nintyzero = (R_I90' * R_I0)'; % R_(90,I)*R_
+    R_nintyzero = (R_I90' * R_I0)'; % R_(90deg->0degR_(90,I)*R_(I,0)
     transl_nintyzero = zeros(1,3); %center_0deg - center_90deg;
 
     % Homogeneous Transformation Matrix
