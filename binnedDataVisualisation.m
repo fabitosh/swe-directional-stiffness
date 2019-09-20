@@ -1,9 +1,13 @@
-function binnedDataVisualisation(x, y, nr_bins, x_label) 
+function binnedDataVisualisation(x, y, nr_bins, x_label, y_label) 
 % Splits x into nr_bins equally sized bins. Computes the mean and standard
 % deviation for each bin.
 % The plot shows the scatter of all datapoints, the mean curve and the
 % confidence interval of one std deviation.
     
+    if ~y_label
+        y_label = 'Stiffness';
+    end
+
     %% Binning data
     [bins, edges] = discretize(x, nr_bins);
     half_intervall = 0.5*(edges(2)-edges(1));
@@ -22,7 +26,7 @@ function binnedDataVisualisation(x, y, nr_bins, x_label)
     %% Visualise Results
     scatter(x, y, 1, 'filled'); hold on
     yyaxis left
-    ylabel('Stiffness')
+    ylabel(y_label)
     xlabel(x_label)
     plot(x_center, means, "-k", 'LineWidth', 1)
     low = means - stds;

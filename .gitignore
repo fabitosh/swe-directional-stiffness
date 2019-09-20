@@ -36,6 +36,8 @@ octave-workspace
 *.mat
 *.png
 *.fig
+*.nii
+*.csv
 
 # Folders
 all_visualisations/*

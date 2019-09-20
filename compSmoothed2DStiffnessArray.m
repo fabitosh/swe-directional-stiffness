@@ -21,10 +21,12 @@ function [smoothed_stiffness_array_filtered] = compSmoothed2DStiffnessArray(pcl,
     % Those are the values of the voxels above or below the measurement
     sums = accumarray([xidx(:), yidx(:)], z);
 
+    stdfilt
+    
     %% Smoothen out the data with a 2D convolution
     % A) Mean Mask:
-    %conv_filter_size = 3;
-    %filter = ones(conv_filter_size)/(conv_filter_size*conv_filter_size);
+    conv_filter_size = 3;
+    filter = ones(conv_filter_size)/(conv_filter_size*conv_filter_size);
     % B) Gaussian Mask
     filter = [1, 1, 2, 1, 1;
               1, 2, 4, 2, 1; 
@@ -36,7 +38,7 @@ function [smoothed_stiffness_array_filtered] = compSmoothed2DStiffnessArray(pcl,
     counts_smoothed = conv2(counts, filter, 'same');
     smoothed_stiffness_array = sums_smoothed./counts_smoothed; % Normalization 
     smoothed_stiffness_array_filtered = (counts_smoothed > count_threshold).* smoothed_stiffness_array;
-
+    
     % If subsampling is desired, uncomment the following line:
     %smoothed_stiffness_array = smoothed_stiffness_array(1:conv_filter_size:end,1:conv_filter_size:end);
 
